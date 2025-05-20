@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Adesivos para Instagram</title>
+
+    
+
+    <style>
+* {
+    box-sizing: border-box;
+}
+
+
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 30px;
+            background-color: #ffffff;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        #gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        #gallery img {
+            width: 200px;
+            cursor: pointer;
+            transition: transform 0.2s, border 0.2s;
+            border: 2px solid transparent;
+            border-radius: 8px;
+           
+
+        }
+
+        #gallery img:hover {
+            transform: scale(1.05);
+            border-color: #007bff;
+        }
+
+        #sticker {
+          position: fixed;
+    bottom: 90px; /* deixa espaço para o botão */
+    left: 50%;
+    transform: translateX(-50%) scale(1.7);
+    width: 200px;
+    border-radius: 10px;
+    z-index: 999; 
+    background-color: #ffffff;
+  
+    
+        }
+
+        button {
+    position: fixed;
+    bottom: 20px;    /* distância do rodapé da janela */
+    left: 50%;       /* posiciona no meio horizontalmente */
+    transform: translateX(-50%);  /* centraliza exatamente */
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 1000;   /* para ficar acima de outros elementos */
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+        @media (max-width: 600px) {
+    #gallery {
+        justify-content: space-between;
+    }
+
+    #gallery img {
+        width: 45%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    #sticker {
+        width: 120px;
+        transform: translateX(-50%) scale(1.4);
+    }
+
+    button {
+        width: 90%;
+        font-size: 18px;
+    }
+}
+
+
+
+select {
+    padding: 8px 12px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+
+    </style>
+</head>
+<body>
+    <h1><img src="/static/logo.png" alt="Logo do site" id="logo"></h1>
+
+    <label for="category">Escolha uma categoria:</label>
+<select id="category" onchange="filterStickers()">
+    <option value="todos">Todos</option>
+    <option value="amor">Amor</option>
+    <option value="fe">Fé</option>
+    <option value="motivacional">Motivacional</option>
+    <option value="carros">carros</option>
+</select>
+
+
+<div id="gallery">
+    {% for sticker in stickers %}
+        <img src="{{ sticker.url }}" data-category="{{ sticker.categoria }}" onclick="selectSticker(this)">
+    {% endfor %}
+</div>
+
+
+
+ 
+    <img id="sticker" src="{{ stickers[0] }}" alt="">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <button onclick="copyImage()">📋 Copiar imagem</button>
+
+    <p> </p>
+
+    <script>
+        function selectSticker(img) {
+            document.getElementById("sticker").src = img.src;
+        }
+
+        async function copyImage() {
+            try {
+                const response = await fetch(document.getElementById("sticker").src);
+                const blob = await response.blob();
+                const item = new ClipboardItem({ [blob.type]: blob });
+                await navigator.clipboard.write([item]);
+                alert("Imagem copiada com sucesso! Vá ao Instagram e cole no Story.");
+            } catch (err) {
+                const stickerUrl = document.getElementById("sticker").src;
+                if (confirm("Erro ao copiar imagem. Deseja baixar a imagem?")) {
+                    const link = document.createElement('a');
+                    link.href = stickerUrl;
+                    link.download = "adesivo.png";
+                    link.click();
+                }
+                console.error(err);
+            }
+        }
+
+function filterStickers() {
+    const selectedCategory = document.getElementById("category").value;
+    const allStickers = document.querySelectorAll("#gallery img");
+
+    allStickers.forEach(img => {
+        const category = img.getAttribute("data-category");
+        img.style.display = (selectedCategory === "todos" || category === selectedCategory) ? "inline" : "none";
+    });
+}
+
+
+    </script>
+</body>
+</html>
