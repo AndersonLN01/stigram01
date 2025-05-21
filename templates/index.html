@@ -29,10 +29,11 @@
             justify-content: center;
             gap: 15px;
             margin-bottom: 30px;
+           
         }
 
         #gallery img {
-            width: 200px;
+            width: 355px;
             cursor: pointer;
             transition: transform 0.2s, border 0.2s;
             border: 2px solid transparent;
@@ -48,7 +49,7 @@
 
         #sticker {
           position: fixed;
-    bottom: 90px; /* deixa espaço para o botão */
+    bottom: 170px; /* deixa espaço para o botão */
     left: 50%;
     transform: translateX(-50%) scale(1.7);
     width: 200px;
@@ -61,11 +62,11 @@
 
         button {
     position: fixed;
-    bottom: 20px;    /* distância do rodapé da janela */
+    bottom: 10px;    /* distância do rodapé da janela */
     left: 50%;       /* posiciona no meio horizontalmente */
     transform: translateX(-50%);  /* centraliza exatamente */
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 10px 10px;
+    font-size: 50px;
     cursor: pointer;
     z-index: 1000;   /* para ficar acima de outros elementos */
     border-radius: 8px;
@@ -79,20 +80,20 @@
 button:hover {
     background-color: #0056b3;
 }
-        @media (max-width: 600px) {
+        @media (max-width: 945px) {
     #gallery {
         justify-content: space-between;
     }
 
     #gallery img {
-        width: 45%;
-        max-width: 100%;
+        width: 150%;
+        max-width: 150%;
         height: auto;
     }
 
     #sticker {
         width: 120px;
-        transform: translateX(-50%) scale(1.4);
+        transform: scale(2.90);
     }
 
     button {
@@ -105,7 +106,7 @@ button:hover {
 
 select {
     padding: 8px 12px;
-    font-size: 16px;
+    font-size: 76px;
     margin-bottom: 20px;
     border-radius: 6px;
     border: 1px solid #ccc;
@@ -117,7 +118,7 @@ select {
 <body>
     <h1><img src="/static/logo.png" alt="Logo do site" id="logo"></h1>
 
-    <label for="category">Escolha uma categoria:</label>
+    <label for="category"><h1>Escolha uma categoria:</h1></label>
 <select id="category" onchange="filterStickers()">
     <option value="todos">Todos</option>
     <option value="amor">Amor</option>
